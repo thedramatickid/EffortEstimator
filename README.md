@@ -17,7 +17,7 @@ A user-friendly tool for accurately estimating the time and resources required f
 ```
 
   if (needHelp === true) {
-     var emailId = "dhirendra.ksingh@yahoo.com";
+     var emailId = "dhirsingh@deloitte.com";
      // email is the best way to reach out to me.
      sendEmail(emailId);
   }
