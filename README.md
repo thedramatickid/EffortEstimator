@@ -5,7 +5,7 @@ A user-friendly tool for accurately estimating the time and resources required f
 
 ![HTML](https://img.shields.io/badge/frontend-html-orange.svg?logo=html5&style=flat-square) 
 ![CSS](https://img.shields.io/badge/frontend-css-yellowgreen.svg?logo=css3&style=flat-square)
-![JavaScript](https://img.shields.io/badge/frontend-js-blue.svg?logo=js&style=flat-square)
+![JavaScript](https://img.shields.io/badge/frontend-javascript-blue.svg?logo=javascript&style=flat-square)
 ![Python](https://img.shields.io/badge/backend-python-pink.svg?logo=python&style=flat-square)
 ![Flask](https://img.shields.io/badge/framework-flask-yellow.svg?logo=flask&style=flat-square)
 
