@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Effort Estimator, v2.0</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+      <style>
+        .card-header{
+          height: 50px;
+          width: 850px;
+          background-color: #86bc25;
+          color: black;
+        }
+        .card-body{
+          width: 850px;
+          display: grid;
+          align-items: normal;
+        }
+        .object-item {
+          margin: 0;
+          padding: 0;
+        }
+        .search-box-right-corner {
+        position: absolute;
+        top: 10px;
+        right: 9px;
+        }
+        th, td{
+        padding-right: 25px;
+        }
+        .container{
+          padding-bottom: 20px;
+        }
+        .f{
+        color: black;
+        padding: 2rem;
+        }
+        .header{
+        text-align: left;
+        font-size: small;
+        line-height: 1.4;
+        }
+        .header a:link{
+        text-decoration: none;
+        }
+        .header a:hover{
+        text-decoration: underline;
+        }
+        label, input[type="submit"]{
+        display: block;
+        }
+        #result{
+        margin-top: 50px;
+        font-size: 18px;
+        }
+        #resource-count, #number-of-sc, #number-of-c{
+        font-weight: bold;
+        }
+      </style>    
+    </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark  bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"><h2><b class="bold">Deloitte</b><span style="color:#86bc25">.</span></h2></a>
+      </div>
+    </nav>
+ 
+    <form method="POST" action="{{ url_for('result') }}">
+      <div class="container d-flex flex-column mt-4">
+        <div class="card mx-auto text-left">
+          <form method="GET" action="{{ url_for('index') }}">
+            <div class="card-header">
+              <h4 class="card-title">Select Objects</h4>
+              <label for="search-box"></label>
+              <input type="search" class="search-box-right-corner" id="search-box" placeholder=" Enter search term">
+            </div>
+          </form>
+          <div class="card-body d-flex flex-column align-items-start justify-content-between">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>
+                  </th>
+                  <th>Object Name</th>
+                  <th>Process Area</th>
+                  <th>Complexity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-1" name="objects" value="1">
+                  </td>
+                  <td>House Bank</td>
+                  <td>FI</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-2" name="objects" value="2">
+                  </td>
+                  <td>CO Config</td>
+                  <td>FI</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-3" name="objects" value="3">
+                  </td>
+                  <td>G/L Accounts</td>
+                  <td>FI</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-4" name="objects" value="4">
+                  </td>
+                  <td>Profit Center (Profit center group)</td>
+                  <td>FI</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-5" name="objects" value="5">
+                  </td>
+                  <td>Cost Center (Cost center group)</td>
+                  <td>FI</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-6" name="objects" value="6">
+                  </td>
+                  <td>Tax Keys</td>
+                  <td>FI</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-7" name="objects" value="7">
+                  </td>
+                  <td>Bank Key (customer, supplier)</td>
+                  <td>FI</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-8" name="objects" value="8">
+                  </td>
+                  <td>Customer</td>
+                  <td>SD</td>
+                  <td>Very High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-9" name="objects" value="9">
+                  </td>
+                  <td>Supplier</td>
+                  <td>P2P</td>
+                  <td>Very High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-10" name="objects" value="10">
+                  </td>
+                  <td>Products</td>
+                  <td>PP</td>
+                  <td>Very High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-11" name="objects" value="11">
+                  </td>
+                  <td>Credit Management</td>
+                <td>FI</td>
+                <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-12" name="objects" value="12">
+                  </td>
+                  <td>Characteristics</td>
+                  <td>PP</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-13" name="objects" value="13">
+                  </td>
+                  <td>Class</td>
+                  <td>PP</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-14" name="objects" value="14">
+                  </td>
+                  <td>Commodity Codes-Creation</td>
+                  <td>P2P</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-15" name="objects" value="15">
+                  </td>
+                  <td>Product Classification</td>
+                  <td>P2P</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-16" name="objects" value="16">
+                  </td>
+                  <td>Work Center</td>
+                  <td>PP</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-17" name="objects" value="17">
+                  </td>
+                  <td>Purchase Contract</td>
+                  <td>P2P</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-18" name="objects" value="18">
+                  </td>
+                  <td>Source List</td>
+                  <td>P2P</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-19" name="objects" value="19">
+                  </td>
+                  <td>QM/PM - Catalog code group/code</td>
+                  <td>QM</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-20" name="objects" value="20">
+                  </td>
+                  <td>Selected set</td>
+                <td>QM</td>
+                <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-21" name="objects" value="21">
+                  </td>
+                  <td>Selected set code</td>
+                  <td>QM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-22" name="objects" value="22">
+                  </td>
+                  <td>Inspection Method</td>
+                  <td>QM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-23" name="objects" value="23">
+                  </td>
+                  <td>Sampling Procedures</td>
+                  <td>QM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-24" name="objects" value="24">
+                  </td>
+                  <td>Master Recipe</td>
+                  <td>QM</td>
+                  <td>Very High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-25" name="objects" value="25">
+                  </td>
+                  <td>Material BOM</td>
+                  <td>PP</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-26" name="objects" value="26">
+                  </td>
+                  <td>Material Batch Classification</td>
+                  <td>PP</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-27" name="objects" value="27">
+                  </td>
+                  <td>Batch Unique at mat and client level</td>
+                  <td>PP</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-28" name="objects" value="28">
+                  </td>
+                  <td>Inspection Characteristic</td>
+                  <td>QM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-29" name="objects" value="29">
+                  </td>
+                  <td>Dynamic Modification Rule</td>
+                  <td>QM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-30" name="objects" value="30">
+                  </td>
+                  <td>Inspection Plan</td>
+                  <td>QM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-31" name="objects" value="31">
+                  </td>
+                  <td>Quality View Extention</td>
+                  <td>QM</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-32" name="objects" value="32">
+                  </td>
+                  <td>Material Inspection Setup</td>
+                  <td>QM</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-33" name="objects" value="33">
+                  </td>
+                  <td>Routings</td>
+                  <td>PP</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-34" name="objects" value="34">
+                  </td>
+                  <td>Production Versions</td>
+                  <td>PP</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-35" name="objects" value="35">
+                  </td>
+                  <td>Purchasing info records</td>
+                  <td>P2P</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-36" name="objects" value="36">
+                  </td>
+                  <td>Certificate profile creation</td>
+                  <td>QM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-37" name="objects" value="37">
+                  </td>
+                  <td>Certificate profile assignment</td>
+                  <td>QM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-38" name="objects" value="38">
+                  </td>
+                  <td>Output Condition Record</td>
+                  <td>QM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-39" name="objects" value="39">
+                  </td>
+                  <td>Condition record for pricing (general template)</td>
+                  <td>SD</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-40" name="objects" value="40">
+                  </td>
+                  <td>Maintenance Workcenter</td>
+                  <td>PM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-41" name="objects" value="41">
+                  </td>
+                  <td>Functional Location</td>
+                  <td>PM</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-42" name="objects" value="42">
+                  </td>
+                  <td>Equipment</td>
+                  <td>PM</td>
+                  <td>Very High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-43" name="objects" value="43">
+                  </td>
+                  <td>General maintenance task list</td>
+                  <td>PM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-44" name="objects" value="44">
+                  </td>
+                  <td>Maintenance Plan</td>
+                  <td>PM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-45" name="objects" value="45">
+                  </td>
+                  <td>Maintenance Item</td>
+                  <td>PM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-46" name="objects" value="46">
+                  </td>
+                  <td>Customer Material</td>
+                  <td>SD</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-47" name="objects" value="47">
+                  </td>
+                  <td>EWM Warehouse Bin Template</td>
+                  <td>MM</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-48" name="objects" value="48">
+                  </td>
+                  <td>EWM Product Master</td>
+                  <td>MM</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-49" name="objects" value="49">
+                  </td>
+                  <td>EWM Packaging Material</td>
+                  <td>MM</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-50" name="objects" value="50">
+                  </td>
+                  <td>EWM Inbound Pack Spec</td>
+                  <td>MM</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-51" name="objects" value="51">
+                  </td>
+                  <td>EWM PSA Control Cycle</td>
+                  <td>MM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-52" name="objects" value="52">
+                  </td>
+                  <td>Fixed assets incl. Balances & transactions</td>
+                  <td>FI</td>
+                  <td>Very High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-53" name="objects" value="53">
+                  </td>
+                  <td>Bank account balance</td>
+                  <td>FI</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-54" name="objects" value="54">
+                  </td>
+                  <td>Accounts payable open item</td>
+                  <td>FI</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-55" name="objects" value="55">
+                  </td>
+                  <td>Accounts receivable open item</td>
+                  <td>FI</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-56" name="objects" value="56">
+                  </td>
+                  <td>G/L Acc balance & open/line item</td>
+                  <td>FI</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-57" name="objects" value="57">
+                  </td>
+                  <td>Sales order (only open SO)</td>
+                  <td>SD</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-58" name="objects" value="58">
+                  </td>
+                  <td>Purchase order (only open PO)</td>
+                  <td>P2P</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-59" name="objects" value="59">
+                  </td>
+                  <td>Inventory Balance (IM Inventory)</td>
+                  <td>MM</td>
+                  <td>Very High</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-60" name="objects" value="60">
+                  </td>
+                  <td>EWM Warehouse Inventory</td>
+                  <td>MM</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-61" name="objects" value="61">
+                  </td>
+                  <td>Project Definition</td>
+                  <td>PS</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-62" name="objects" value="62">
+                  </td>
+                  <td>WBS elements</td>
+                  <td>PS</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-63" name="objects" value="63">
+                  </td>
+                  <td>Real Estate Contract</td>
+                  <td>ReFX</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-64" name="objects" value="64">
+                  </td>
+                  <td>Building</td>
+                  <td>ReFX</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-65" name="objects" value="65">
+                  </td>
+                  <td>Land</td>
+                  <td>ReFX</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-66" name="objects" value="66">
+                  </td>
+                  <td>Rental Object</td>
+                  <td>ReFX</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-67" name="objects" value="67">
+                  </td>
+                  <td>Business Entities</td>
+                  <td>ReFX</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-68" name="objects" value="68">
+                  </td>
+                  <td>Architectural object</td>
+                  <td>ReFX</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-69" name="objects" value="69">
+                  </td>
+                  <td>Merchandise category hierarchy</td>
+                  <td>IS-Retail</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-70" name="objects" value="70">
+                  </td>
+                  <td>Article/Product Hierarchy</td>
+                  <td>IS-Retail</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-71" name="objects" value="71">
+                  </td>
+                  <td>Site Master (Store/DC/Warranty/WH/HQ)</td>
+                  <td>IS-Retail</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-72" name="objects" value="72">
+                  </td>
+                  <td>Merchandise category</td>
+                  <td>IS-Retail</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-73" name="objects" value="73">
+                  </td>
+                  <td>Site grouping</td>
+                  <td>IS-Retail</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-74" name="objects" value="74">
+                  </td>
+                  <td>Business Partner (Customer Master data)</td>
+                  <td>IS-Retail</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-75" name="objects" value="75">
+                  </td>
+                  <td>Item master/Product Master/Article master</td>
+                  <td>IS-Retail</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-76" name="objects" value="76">
+                  </td>
+                  <td>Retail Pricing</td>
+                  <td>IS-Retail</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-77" name="objects" value="77">
+                  </td>
+                  <td>Retail Promotions & Markdowns</td>
+                  <td>IS-Retail</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-78" name="objects" value="78">
+                  </td>
+                  <td>Assortment</td>
+                  <td>IS-Retail</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-79" name="objects" value="79">
+                  </td>
+                  <td>Suppliers Rebate & Contracts</td>
+                  <td>IS-Retail</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-80" name="objects" value="80">
+                  </td>
+                  <td>Open Inventory</td>
+                  <td>IS-Retail</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-81" name="objects" value="81">
+                  </td>
+                  <td>Open Stock transfer Order</td>
+                  <td>IS-Retail</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-82" name="objects" value="82">
+                  </td>
+                  <td>Open Purchase Orders in (Trade)</td>
+                  <td>IS-Retail</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-83" name="objects" value="83">
+                  </td>
+                  <td>Statistical Key figure</td>
+                  <td>CO</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-84" name="objects" value="84">
+                  </td>
+                  <td>Internal order</td>
+                  <td>CO</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-85" name="objects" value="85">
+                  </td>
+                  <td>Activity type</td>
+                  <td>FI</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-86" name="objects" value="86">
+                  </td>
+                  <td>Client segmentation - Credit (2 templates)</td>
+                  <td>FI</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-87" name="objects" value="87">
+                  </td>
+                  <td>Employee</td>
+                  <td>HCM</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-88" name="objects" value="88">
+                  </td>
+                  <td>Commodity codes material assignment</td>
+                  <td>MM</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-89" name="objects" value="89">
+                  </td>
+                  <td>Object classification</td>
+                <td>MM</td>
+                <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-90" name="objects" value="90">
+                  </td>
+                  <td>Material Variant</td>
+                  <td>MM</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-91" name="objects" value="91">
+                  </td>
+                  <td>Material long text</td>
+                  <td>PP</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-92" name="objects" value="92">
+                  </td>
+                  <td>Open production order</td>
+                  <td>PP</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-93" name="objects" value="93">
+                  </td>
+                  <td>PIR(Planned Independent Requirement) for forecast</td>
+                  <td>PP</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-94" name="objects" value="94">
+                  </td>
+                  <td>Setup group assignment (routing)</td>
+                  <td>PP</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-95" name="objects" value="95">
+                  </td>
+                  <td>Quality info record</td>
+                  <td>QM</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-96" name="objects" value="96">
+                  </td>
+                  <td>Email determination in Sales</td>
+                  <td>SD</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-97" name="objects" value="97">
+                  </td>
+                  <td>Sales contracts (open items)</td>
+                  <td>SD</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-98" name="objects" value="98">
+                  </td>
+                  <td>Location</td>
+                  <td>TM</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-99" name="objects" value="99">
+                  </td>
+                  <td>Charge type</td>
+                  <td>TM</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-100" name="objects" value="100">
+                  </td>
+                  <td>Freight agreement</td>
+                  <td>TM</td>
+                  <td>Very Low</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="object-101" name="objects" value="101">
+                  </td>
+                  <td>Transportation zone</td>
+                  <td>TM</td>
+                  <td>Very Low</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <label for="project_timeline">Project Timeline (in months):</label>
+            <input type="number" id="project_timeline" name="project_timeline">
+          </div>
+          <input type="submit" value="Calculate">
+        </div>
+      </div>
+    </form>
+    
+    <script>
+    $(document).ready(function(){
+      $("#search-box").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $("#checkbox-list input[type='checkbox']").filter(function() {
+            $(this).parent().toggle($(this).next().text().toLowerCase().indexOf(value) > -1)
+          });
+      });
+    });
+    </script>
+
+    <footer>
+      <div class="f">
+        <p class="text-left header">© 2022 Deloitte Touche Tohmatsu India LLP. See <a href="https://www2.deloitte.com/in/en/legal/legal.html" style="color: #86bc25;">Terms of Use</a> for more information.</p>
+        <p class="text-left header">Deloitte Touche Tohmatsu India Private Limited (U74140MH199 5PTC093339) a private company limited by shares was converted into Deloitte Touche Tohmatsu India LLP, a<br>liability partnership (LLP Identification No. AAE-8458) with effect from October 1, 2015.</p>
+        <p class="text-left header">Deloitte refers to one or more of Deloitte Touche Tohmatsu Limited, a UK private company limited by guarantee (“DTTL”), its network of member firms, and their related entities.<br>DTTL and each of its member firms are legally separate and independent entities. DTTL (also referred to as “Deloitte Global”) does not provide services to clients. Please<br>see <a href="https://www2.deloitte.com/in/en/pages/about-deloitte/articles/about-deloitte.html" style="color: #86bc25;">www.deloitte.com/about</a> to learn more about our global network of member firms.</p>
+      </div>
+    </footer>
+  </body>
+  
+</html>
